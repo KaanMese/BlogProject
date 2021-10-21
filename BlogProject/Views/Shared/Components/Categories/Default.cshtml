@@ -1,0 +1,14 @@
+﻿@model List<Category>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<ul class="navbar-nav flex-column">
+    @foreach (var item in Model)
+    {
+    <li class="nav-item">
+
+        <a class="nav-link" asp-action="Index" asp-controller="Posts" asp-route-id="@item.ID">@item.Name</a>
+
+    </li>
+    }
+</ul>

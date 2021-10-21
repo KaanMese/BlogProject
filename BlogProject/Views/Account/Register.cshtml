@@ -1,0 +1,96 @@
+﻿@model AccountUserVM;
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_AnonymousLayout.cshtml";
+}
+
+<div class="card card-info">
+    <div class="card-body register-card-body">
+        <p class="login-box-msg">Kayıt Ol</p>
+
+
+        @if (ViewData["Mesaj"] != null)  // eğer viewdata geliyorsa...
+        {
+            <div class="alert alert-primary">
+                @ViewData["Mesaj"] <!--view datayı yazdır...-->
+                <a asp-action="Login" asp-controller="Account">Giriş Yapmak İçin Tıklayınız...</a>
+            </div>
+        }
+
+        <form asp-action="Register" asp-controller="Account" method="post">
+            <span asp-validation-for="@Model.FullName" class="text-danger"></span>
+            <div class="input-group mb-3">
+                <input asp-for="@Model.FullName" type="text" class="form-control" placeholder="Full name">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-user"></span>
+                    </div>
+                </div>
+            </div>
+            <span asp-validation-for="@Model.Email" class="text-danger"></span>
+            <div class="input-group mb-3">
+                <input asp-for="@Model.Email" type="email" class="form-control" placeholder="Email">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-envelope"></span>
+                    </div>
+                </div>
+            </div>
+
+            <span asp-validation-for="@Model.Password" class="text-danger"></span>
+            <div class="input-group mb-3">
+                <input asp-for="@Model.Password" type="password" class="form-control" placeholder="Password">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-lock"></span>
+                    </div>
+                </div>
+            </div>
+            <span asp-validation-for="@Model.Password2" class="text-danger"></span>
+            <div class="input-group mb-3">
+                <input asp-for="@Model.Password2" type="password" class="form-control" placeholder="Retype password">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-lock"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-8">
+                    <div class="icheck-primary">
+                        <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+                        <label for="agreeTerms">
+                            I agree to the <a href="#">terms</a>
+                        </label>
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-4">
+                    <button type="submit" class="btn btn-primary btn-block">Kayıt Ol</button>
+                </div>
+                <!-- /.col -->
+            </div>
+        </form>
+
+        <div class="social-auth-links text-center">
+            <p>- OR -</p>
+            <a href="#" class="btn btn-block btn-primary">
+                <i class="fab fa-facebook mr-2"></i>
+                Sign up using Facebook
+            </a>
+            <a href="#" class="btn btn-block btn-danger">
+                <i class="fab fa-google-plus mr-2"></i>
+                Sign up using Google+
+            </a>
+        </div>
+
+        <a asp-action="Login" asp-controller="Account" class="text-center">I already have a membership</a>
+    </div>
+    <!-- /.form-box -->
+</div><!-- /.card -->
+
+@section ValidationScripts{
+    @Html.Partial("_ValidationScriptsPartial")
+}

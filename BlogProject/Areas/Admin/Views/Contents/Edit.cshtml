@@ -1,0 +1,71 @@
+﻿@model BlogProject.Models.Entities.Content
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Edit">
+            <div class="card card-info">
+                <div class="card-header">
+                    İçerik Güncelle
+                </div>
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="ID" />
+                    <div class="form-group">
+                        <label asp-for="Title" class="control-label"></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ShortText" class="control-label"></label>
+                        <textarea asp-for="ShortText"></textarea>
+                        <span asp-validation-for="ShortText" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label asp-for="Text" class="control-label"></label>
+                        <textarea asp-for="Text"></textarea>
+
+                        <span asp-validation-for="Text" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CategoryID" class="control-label"></label>
+                        <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.CategoryID"></select>
+                        <span asp-validation-for="CategoryID" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <input type="hidden" asp-for="UserID" />
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <link href="~/plugins/summernote/summernote.css" rel="stylesheet" />
+    <script src="~/plugins/summernote/summernote.js"></script>
+
+    <script>
+        $("#Text").summernote();
+    </script>
+}

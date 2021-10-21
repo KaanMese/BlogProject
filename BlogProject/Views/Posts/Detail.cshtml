@@ -1,0 +1,138 @@
+﻿@model Content
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<article class="blog-post px-3 py-5 p-md-5">
+    <div class="container">
+        <header class="blog-post-header">
+            <h2 class="title mb-2">@Model.Title</h2>
+
+            <div class="meta mb-3"><span class="date">Published @Model.CreDate</span><span class="time">@Model.ViewCount read</span><span class="comment"><a href="#">@Model.Comments.Count comments</a></span></div>
+
+        </header>
+
+        <div class="blog-post-body">
+            @Html.Raw(Model.Text)
+        </div>
+
+        <nav class="blog-nav nav nav-justified my-5">
+            <a class="nav-link-prev nav-item nav-link rounded-left" href="index.html">Previous<i class="arrow-prev fas fa-long-arrow-alt-left"></i></a>
+            <a class="nav-link-next nav-item nav-link rounded-right" href="blog-list.html">Next<i class="arrow-next fas fa-long-arrow-alt-right"></i></a>
+        </nav>
+
+        <div class="blog-comments-section">
+
+
+            <div class="container">
+                <div class="be-comment-block">
+                    <h1 class="comments-title">Comments ( @Model.Comments.Count(c => c.IsApprove == true) )</h1>
+
+                    @foreach (var item in Model.Comments.Where(c => c.IsApprove == true))
+                    {
+                        <div class="be-comment">
+                            <div class="be-img-comment">
+                                <a href="blog-detail-2.html">
+                                    <img src="~/UploadProfilePicture/@item.User.PicturePath" alt="" class="be-ava-comment">
+                                </a>
+                            </div>
+                            <div class="be-comment-content">
+                                <span class="be-comment-name">
+                                    <a href="#">@item.User.FullName</a>
+                                </span>
+                                <span class="be-comment-time">
+                                    <i class="fa fa-clock-o"></i>
+                                    @item.CreDate.ToShortDateString()
+                                </span>
+                                <p class="be-comment-text">
+                                    @item.Text
+
+                                    <div class="cevapla" style="cursor:pointer;">
+                                        <b> Cevapla..</b>
+                                    <br />
+                                        <div class="cevapForm">
+                                            <form asp-action="AddCommentCevap" asp-controller="Posts" data-ajax="true" data-ajax-success="OnSucessComment">
+                                                <textarea></textarea>
+                                                <button type="submit">Cevap ver..</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </p>
+                            </div>
+                        </div>
+                    }
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form class="form-block" asp-action="AddComment" asp-controller="Posts" data-ajax="true" data-ajax-success="OnSucessComment">
+                            <div class="row">
+                                <div class="col-xs-12 col-lg-12">
+                                    <div class="form-group">
+                                        <!--id = javascript, css ile yakalamk için.
+                                        name= server'dan yakalamak için-->
+                                        <textarea class="form-input" id="txtComment" name="text" required="" placeholder="Your text"></textarea>
+                                        <input type="hidden" name="contentId" value="@Model.ID" /> <!---görünmeyen input-->
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary pull-right">Gönder</button>
+                            </div>
+                        </form>
+
+                        @section PageScript{
+                            <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+
+                            <script>
+                                function OnSucessComment(response) {
+                                    var messageDiv = $("#dvSiteMessage"); // message divini yakalıroyurz...
+                                    messageDiv.removeClass("alert-info"); // eklediğimiz sınıfları siliyoruz
+                                    messageDiv.removeClass("alert-danger"); // eklediğimiz sınıfları siliyoruz
+                                    if (response.Code == "0") { // işlem başarılıysa...
+                                        messageDiv.addClass("alert-info"); // başarılı css classı ekleriz
+                                    }
+                                    else {
+                                        messageDiv.addClass("alert-danger"); // başarısz css classı ekleriz
+                                    }
+                                    messageDiv.html(response.Message); // gelen mesajı div'e ekleriz..
+                                    messageDiv.fadeIn(); // div'i gösteririz
+                                    setTimeout(function () {
+                                        messageDiv.fadeOut(); // div'i gizle...
+                                    }, 3000);
+                                    $("#txtComment").val(""); // comment textareanın textini temizliyoruz...
+                                }
+                            </script>
+
+                        }
+
+                    }
+                    else
+                    {
+                        <p>YORUM YAPMAK İÇİN LÜTFEN  <a asp-action="Login" asp-controller="Account" asp-route-id="1">OTURUM AÇINIZ</a></p>
+
+
+
+                    }
+                </div>
+            </div>
+
+        </div><!--//blog-comments-section-->
+
+
+    </div><!--//container-->
+</article>
+
+<section class="promo-section theme-bg-light py-5 text-center">
+    <div class="container">
+        <h2 class="title">Promo Section Heading</h2>
+        <p>You can use this section to promote your side projects etc. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. </p>
+        <figure class="promo-figure">
+            <a href="https://made4dev.com" target="_blank"><img class="img-fluid" src="assets/images/promo-banner.jpg" alt="image"></a>
+        </figure>
+    </div><!--//container-->
+</section><!--//promo-section-->
+
+<footer class="footer text-center py-2 theme-bg-dark">
+
+    <!--/* This template is released under the Creative Commons Attribution 3.0 License. Please keep the attribution link below when using for your own project. Thank you for your support. :) If you'd like to use the template without the attribution, you can buy the commercial license via our website: themes.3rdwavemedia.com */-->
+    <small class="copyright">Designed with <i class="fas fa-heart" style="color: #fb866a;"></i> by <a href="http://themes.3rdwavemedia.com" target="_blank">Xiaoying Riley</a> for developers</small>
+
+</footer>

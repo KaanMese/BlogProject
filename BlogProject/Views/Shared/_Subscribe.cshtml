@@ -1,0 +1,43 @@
+﻿
+
+<section class="cta-section theme-bg-light py-5">
+    <div class="container text-center">
+        <h2 class="heading">DevBlog - A Blog Template Made For Developers</h2>
+        <div class="intro">Bloğuma hoş geldiniz.Makalelerden haberdar olabilmek için abone olunuz.</div>
+        <form class="signup-form form-inline justify-content-center pt-3" method="post" asp-action="PostSubscribe" data-ajax="true" data-ajax-success="SuccessEmail" asp-controller="Home">
+            <div class="form-group">
+                <label class="sr-only" for="semail">Email </label>
+                <input type="email" id="semail" name="semail1" class="form-control mr-md-1 semail" placeholder="Emailinizi girin" autocomplete="off">
+            </div>
+            <button type="submit" class="btn btn-primary">Abone Ol</button>
+        </form>
+    </div><!--//container-->
+</section>
+
+<script>
+    function SuccessEmail(resp) {
+
+
+        var messageDiv = $("#dvSiteMessage"); // divi yakala
+
+        messageDiv.removeClass("alert-info"); // varsa bu classı sil
+        messageDiv.removeClass("alert-danger"); // varsa bu classı sil
+
+        if (resp.Code == 0) {// işlem başarılıysa
+            messageDiv.addClass("alert-info"); // başarılı class ekle
+        }
+        else {
+            messageDiv.addClass("alert-danger"); // başarısız classı ekle
+        }
+
+        $("#semail").val(""); // inputun valuesını sil...
+        messageDiv.html(resp.Message); // içeriği dvin içeine ekle
+
+        messageDiv.fadeIn(); // divi göster...
+
+        // 3 saniye sonra divi gizle...
+        setTimeout(function () {
+            messageDiv.fadeOut();
+        }, 3000); // 3 saniye sonra çalışr
+    }
+</script>

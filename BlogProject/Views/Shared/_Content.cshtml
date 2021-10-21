@@ -1,0 +1,25 @@
+﻿@model Content // Contenti model olarak belirledik..
+
+
+<div class="item mb-5">
+    <div class="media">
+        <img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="/assets/images/blog/blog-post-thumb-7.jpg" alt="image">
+        <div class="media-body">
+            <h3 class="title mb-1">
+                <a asp-action="Detail" asp-controller="Posts" asp-route-id="@Model.ID" asp-area="">
+                    @Model.Title
+                </a>
+            </h3>
+            <div class="meta mb-1"><span class="date">Tarih : @Model.CreDate.ToShortDateString()</span><span class="time">@Model.ViewCount Okuma</span><span class="comment"><a>@Model.Comments.Count Yorum</a></span></div>
+            <div class="intro">
+                @{
+                    // ternary if.. (tek satır iki koşlluk if...)
+                    string GosterilecekText = Model.ShortText.Length > 200 ? Model.ShortText.Substring(0, 200) : Model.ShortText;
+                }
+                @Html.Raw(GosterilecekText)
+                ...
+            </div>
+            <a class="more-link" asp-action="Detail" asp-controller="Posts" asp-route-id="@Model.ID" asp-area="">Devamını Oku &rarr;</a>
+        </div><!--//media-body-->
+    </div><!--//media-->
+</div>
